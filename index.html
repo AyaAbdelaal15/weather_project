@@ -1,156 +1,269 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather</title>
-    <link rel="stylesheet" href="./css/all.min.css">    
-    <link rel="stylesheet" href="./css/bootstrap.min.css">    
-    <link rel="stylesheet" href="./css/style.css">    
-</head>
-<body>
-    <div class="page">
-        <div class="navbar navbar-expand-lg k p-md-3 ">
-            <div class="container">
-                <a href="#" class="logo d-flex p-4">
-                        <img src="./imgs/logo.png" alt="logo" >
-                    <div class="title">
-                        <h1>Weather</h1>
-                        <small class="">tagline goes here</small>
-                    </div>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                <div class="collapse navbar-collapse" id="navbarToggleExternalContent" >
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0"> 
-                        <li>
-                            <a class="nav-link active" aria-current="page" href="#Home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">News</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Live cameras</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">photos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#Contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="A responsive weather application that provides current weather and a three-day forecast."
+    />
+
+    <title>Weather App</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="./css/all.min.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <!-- ==================== Header ==================== -->
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <!-- Logo -->
+          <a href="#" class="navbar-brand logo">
+            <img src="./imgs/logo.png" alt="Weather logo" />
+
+            <div class="logo-content">
+              <h1>Weather</h1>
+              <span>Tagline goes here</span>
             </div>
+          </a>
+
+          <!-- Mobile Menu Button -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navigation -->
+          <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#home"> Home </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#"> News </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Live Cameras </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#"> Photos </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#contact"> Contact </a>
+              </li>
+            </ul>
+          </div>
         </div>
-    </div>
-</div> <!-- .site-header -->
+      </nav>
+    </header>
 
-<div class="hero p-4" >
-    <div class="container px-3 py-5 text-center">
-        <form  class="find-location row">
-            <input type="text" placeholder="Find your location..." id="search" class=" mx-auto rounded-5 py-3 px-4 mb-5 text-white">
-        <div class="row g-0">
-            <div class="item col-md-4 m-0 bg-content todayContentBorder">
-                <div class="today d-flex justify-content-between py-2 px-3 text-light bg-header todayHeaderBorder">
-                    <p id="todayName" class="my-auto">Sunday</p>
-                    <span>
-                        <span id="todayDate" class="my-auto">30</span>
-                        <span id="todayMonth" class="my-auto">May</span>
-                    </span>
+    <!-- ==================== Main ==================== -->
+    <main>
+      <!-- Hero / Weather Section -->
+      <section class="hero" id="home">
+        <div class="container">
+          <!-- Search -->
+          <form class="weather-search" id="weatherForm">
+            <label for="search" class="visually-hidden">
+              Search for a city
+            </label>
+
+            <input
+              type="search"
+              id="search"
+              class="form-control"
+              placeholder="Find your location..."
+              autocomplete="off"
+            />
+
+            <button type="submit" class="search-btn">Find</button>
+          </form>
+
+          <!-- Loading State -->
+          <div class="loading d-none" id="loading" aria-live="polite">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Loading weather...</span>
+          </div>
+
+          <!-- Error Message -->
+          <div
+            class="weather-error d-none"
+            id="weatherError"
+            role="alert"
+          ></div>
+
+          <!-- Weather Cards -->
+          <div class="weather-grid">
+            <!-- ================= Today ================= -->
+            <article class="weather-card today-card">
+              <header class="weather-card-header">
+                <span id="todayName">Sunday</span>
+
+                <span>
+                  <span id="todayDate">30</span>
+                  <span id="todayMonth">May</span>
+                </span>
+              </header>
+
+              <div class="weather-card-body">
+                <p class="location" id="todayLocation">Cairo</p>
+
+                <div class="current-temperature">
+                  <h2>
+                    <span id="todayTemp">40</span>
+                    <sup>°C</sup>
+                  </h2>
                 </div>
-                <div class="item-content text-start px-3 py-5 pt-4 text-hight" id="today">
-                    <p id="todayLocation" class="fs-4">Cairo</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h1 class="fs-1 fw-bolder text-white">
-                            <span id="todayTemp">40</span>
-                            <span><sup>o</sup>C</span>
-                        </h1>
-                    </div>                        
-                    <!-- <img   alt="" id="todayImg"> -->
-                    <p id="todayWeather" class="fs-6 colorWeather">Sunny</p>
-                    <div class="d-flex text-white-50 align-items-center">
-                        <div class="d-flex me-3">
-                            <i class="fa-solid fa-umbrella"></i>
-                            <p id="umbrella">20%</p>
-                        </div>
-                        <div class="d-flex me-3">
-                            <i class="fa-solid fa-wind"></i>
-                            <p id="wind">18km/h</p>
-                        </div>
-                        <div class="d-flex me-3">
-                            <i class="fa-regular fa-compass"></i>
-                            <p id="compass">East</p>
-                        </div>
+
+                <p class="weather-condition" id="todayWeather">Sunny</p>
+
+                <div class="weather-details">
+                  <div class="weather-detail">
+                    <i class="fa-solid fa-umbrella"></i>
+                    <span id="umbrella">20%</span>
+                  </div>
+
+                  <div class="weather-detail">
+                    <i class="fa-solid fa-wind"></i>
+                    <span id="wind">18 km/h</span>
+                  </div>
+
+                  <div class="weather-detail">
+                    <i class="fa-regular fa-compass"></i>
+                    <span id="compass">East</span>
+                  </div>
                 </div>
-                </div>
-            </div>
-            <div class="item col-md-4 m-0">
-                <div class="tmorrow py-2 text-center text-light" >
-                    <p class="my-auto" id="tomorrow">Monday</p>
-                </div>
-                <div class="text-start text-white-50 py-5 text-center pt-5" id="tomorrowDate">
-                    <img src="./imgs/113.webp" alt="cloud"  id="tomorrowImg">
-                    <h3 class="text-white py-5">
-                        <span id="tomorrowMaxTemp">40</span>
-                        <span><sup>o</sup>C</span>
-                    </h3>
-                    <h5>
-                        <span id="tomorrowMinTemp">39</span>
-                        <span><sup>o</sup>C</span>
-                    </h5>
-                    <p class="fs-6 text colorWeather" id="tomorrowWeather">Sunny</p>
-                </div>
-            </div>
-            <div class="item col-md-4 m-0  bg-content afterContentBorder">
-                <div class="afterTomorrow py-2 text-center px-3 bg-header afterHeaderBorder">
-                    <p class="my-auto" id="afterTomorrow">Tuseday</p>
-                </div>
-                <div class="item-content text-white-50 text-start p-3 text-center pt-5">
-                    <img src="./imgs/113.webp" alt="s">
-                    <h3 class="text-white py-5">
-                        <span id="afterTomMaxTemp">39</span>
-                        <span><sup>o</sup>C</span>
-                    </h3>
-                    <h5 class="">
-                        <span id="afterTomMinTemp">25</span>
-                        <span><sup>o</sup>C</span>
-                    </h5>
-                    <p class="fs-6 text colorWeather" id="afterWeather">Sunny</p>
-                </div>
-            </div>
+              </div>
+            </article>
+
+            <!-- ================= Tomorrow ================= -->
+            <article class="weather-card forecast-card">
+              <header class="weather-card-header">
+                <span id="tomorrow">Monday</span>
+              </header>
+
+              <div class="weather-card-body">
+                <img
+                  src="./imgs/113.webp"
+                  alt="Weather condition"
+                  class="weather-icon"
+                  id="tomorrowImg"
+                />
+
+                <h2 class="forecast-max-temp">
+                  <span id="tomorrowMaxTemp">40</span>
+                  <sup>°C</sup>
+                </h2>
+
+                <p class="forecast-min-temp">
+                  <span id="tomorrowMinTemp">39</span>
+                  <sup>°C</sup>
+                </p>
+
+                <p class="weather-condition" id="tomorrowWeather">Sunny</p>
+              </div>
+            </article>
+
+            <!-- ================= After Tomorrow ================= -->
+            <article class="weather-card forecast-card">
+              <header class="weather-card-header">
+                <span id="afterTomorrow"> Tuesday </span>
+              </header>
+
+              <div class="weather-card-body">
+                <img
+                  src="./imgs/113.webp"
+                  alt="Weather condition"
+                  class="weather-icon"
+                  id="afterTomorrowImg"
+                />
+
+                <h2 class="forecast-max-temp">
+                  <span id="afterTomMaxTemp">39</span>
+                  <sup>°C</sup>
+                </h2>
+
+                <p class="forecast-min-temp">
+                  <span id="afterTomMinTemp">25</span>
+                  <sup>°C</sup>
+                </p>
+
+                <p class="weather-condition" id="afterWeather">Sunny</p>
+              </div>
+            </article>
+          </div>
         </div>
-    </div>
-</div>
+      </section>
+    </main>
 
-<div class="last-sec">
-    <div class="container">
-        <div class="d-flex flex-column align-items-start">
-            <div class="col-12">
-                <form action="" class="for">
-                    <input type="text" placeholder="Enter your email to subscribe..." class=" mx-auto rounded-5 py-3 px-4 mb-5 text-white">
-                </form>
-            </div>    
-                <div class="">
-                    <div class="links">
-                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="#"><i class="fa-brands fa-google-plus-g"></i></a>
-                        <a href="#"><i class="fa-brands fa-pinterest"></i></a>
-                    </div>
-                </div>
+    <!-- ==================== Footer ==================== -->
+    <footer class="site-footer" id="contact">
+      <div class="container">
+        <div class="footer-content">
+          <!-- Subscribe -->
+          <form class="subscribe-form" id="subscribeForm">
+            <label for="email" class="visually-hidden"> Email address </label>
 
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email to subscribe..."
+              autocomplete="email"
+            />
+
+            <button type="submit">Subscribe</button>
+          </form>
+
+          <!-- Social Links -->
+          <div class="social-links">
+            <a href="#" aria-label="Facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a href="#" aria-label="Twitter">
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+
+            <a href="#" aria-label="Google Plus">
+              <i class="fa-brands fa-google-plus-g"></i>
+            </a>
+
+            <a href="#" aria-label="Pinterest">
+              <i class="fa-brands fa-pinterest"></i>
+            </a>
+          </div>
         </div>
-        <p >Copyright 2014 Company name. Designed by Themezy. All rights reserved</p>
-    </div>
-</div>
 
+        <p class="copyright">
+          Copyright 2014 Company name. Designed by Themezy. All rights reserved.
+        </p>
+      </div>
+    </footer>
 
-<!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
+    <!-- Bootstrap -->
     <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/popper.min.js"></script>
+
+    <!-- Custom JavaScript -->
     <script src="./js/main.js"></script>
-</body>
+  </body>
 </html>
